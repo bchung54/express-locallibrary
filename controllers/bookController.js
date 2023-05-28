@@ -24,7 +24,7 @@ exports.index = asyncHandler(async (req, res, next) => {
     Genre.countDocuments({}).exec(),
   ]);
 
-  res.render('index', {
+  res.render('partials/index', {
     title: 'Local Library Home',
     book_count: numBooks,
     book_instance_count: numBookInstances,
@@ -41,7 +41,7 @@ exports.book_list = asyncHandler(async (req, res, next) => {
     .populate('author')
     .exec();
 
-  res.render('book_list', { title: 'Book List', book_list: allBooks });
+  res.render('partials/book_list', { title: 'Book List', book_list: allBooks });
 });
 
 // Display detail page for a specific book.
@@ -59,7 +59,7 @@ exports.book_detail = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  res.render('book_detail', {
+  res.render('partials/book_detail', {
     title: book.title,
     book: book,
     book_instances: bookInstances,
