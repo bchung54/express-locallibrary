@@ -1,0 +1,19 @@
+<h1>ID: <%= bookinstance._id %></h1>
+<p>
+  <strong>Title:</strong>
+  <a href="<%= bookinstance.book.url %>"><%= bookinstance.book.title %></a>
+</p>
+<p><strong>Imprint:</strong> <%= bookinstance.imprint %></p>
+<p>
+  <strong>Status:</strong>
+  <% switch (bookinstance.status) { case 'Available': %>
+  <span class="text-success"><%= bookinstance.status %></span>
+  <% break; case 'Maintenance': %>
+  <span class="text-danger"><%= bookinstance.status %></span>
+  <% break; default: %>
+  <span class="text-warning"><%= bookinstance.status %></span>
+  <% break; } %>
+</p>
+<%- bookinstance.status !== 'Available' ? `
+<p><strong>Due back:</strong> ${bookinstance.due_back_formatted}</p>
+`: '' %>

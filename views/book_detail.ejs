@@ -1,0 +1,41 @@
+<h1>Title: <%= book.title %></h1>
+<p>
+  <strong>Author:</strong>
+  <a href="<%= book.author.url %>"><%= book.author.name %></a>
+</p>
+<p>
+  <strong>Summary:</strong>
+  <%= book.summary %>
+</p>
+<p>
+  <strong>ISBN:</strong>
+  <%= book.isbn %>
+</p>
+<p>
+  <strong>Genre:</strong>
+  <% book.genre.forEach((val, index) => {%>
+  <a href="<%= val.url %>"><%= val.name %></a>
+
+  <!-- Adds comma between genres in list without trailing comma -->
+  <%= index < book.genre.length - 1 ? ',': '' %> <% }); %>
+</p>
+<div style="margin-left: 20px; margin-top: 20px">
+  <h4>Copies</h4>
+  <% if (book_instances.length > 0) { book_instances.forEach(val => { %>
+  <hr />
+  <% switch (val.status) { case 'Available': %>
+  <p class="text-success"><%= val.status %></p>
+  <% break; case 'Maintenance': %>
+  <p class="text-danger"><%= val.status %></p>
+  <% break; default: %>
+  <p class="text-warning"><%= val.status %></p>
+  <% break; }%>
+  <p><strong>Imprint:</strong> <%= val.imprint %></p>
+  <%- val.status !== 'Available' ? `
+  <p><strong>Due back: ${val.due_back}</strong></p>
+  ` : '' %>
+  <p><strong>Id:</strong><a href="<%= val.url %>"><%= val._id %></a></p>
+  <% }); } else { %>
+  <p>There are no copies of this book in the library.</p>
+  <% } %>
+</div>

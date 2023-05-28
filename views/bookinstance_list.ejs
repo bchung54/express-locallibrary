@@ -1,0 +1,19 @@
+<h1><%= title %></h1>
+<ul>
+  <% if (bookinstance_list.length > 0) { bookinstance_list.forEach(val => { %>
+  <li>
+    <a href="<%= val.url %>"><%= val.book.title %> : <%= val.imprint %></a>
+    - <% switch (val.status) { case 'Available': %>
+    <span class="text-success"><%= val.status %></span>
+    <% break; case 'Maintenance': %>
+    <span class="text-danger"><%= val.status %></span>
+    <% break; default: %>
+    <span class="text-warning"><%= val.status %></span>
+    <% break; } if (val.status !== 'Available') { %>
+    <span>Due: <%= val.due_back_formatted %></span>
+    <% } %>
+  </li>
+  <%}); } else { %>
+  <li>There are no book copies in this library.</li>
+  <% } %>
+</ul>
