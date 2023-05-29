@@ -1,23 +1,18 @@
-<h1>Title: <%= book.title %></h1>
+<h1><%= title %> : <%= book.title %></h1>
 <p>
   <strong>Author:</strong>
   <a href="<%= book.author.url %>"><%= book.author.name %></a>
 </p>
 <p>
-  <strong>Summary:</strong>
-  <%= book.summary %>
-</p>
-<p>
   <strong>ISBN:</strong>
   <%= book.isbn %>
 </p>
+<% if (book_instances.length > 0) { %>
 <p>
-  <strong>Genre:</strong>
-  <% book.genre.forEach((val, index) => {%>
-  <a href="<%= val.url %>"><%= val.name %></a>
-
-  <!-- Adds comma between genres in list without trailing comma -->
-  <%= index < book.genre.length - 1 ? ',': '' %> <% }); %>
+  <strong
+    >Delete the following book instances before attempting to delete this
+    book.</strong
+  >
 </p>
 <div style="margin-left: 20px; margin-top: 20px">
   <h4>Copies</h4>
@@ -32,17 +27,27 @@
   <% break; }%>
   <p><strong>Imprint:</strong> <%= val.imprint %></p>
   <%- val.status !== 'Available' ? `
-  <p><strong>Due back: ${val.due_back_formatted}</strong></p>
+  <p><strong>Due back: ${val.due_back}</strong></p>
   ` : '' %>
   <p><strong>Id:</strong><a href="<%= val.url %>"><%= val._id %></a></p>
   <% }); } else { %>
   <p>There are no copies of this book in the library.</p>
   <% } %>
 </div>
-<hr />
-<p>
-  <a href="<%= book.url + '/delete' %>">Delete book</a>
-</p>
-<p>
-  <a href="<%= book.url + '/update' %>">Update book</a>
-</p>
+<% } else { %>
+<!-- In a full implementation, the control would be made visible only to authorized users.-->
+<p>Do you really want to delete this Author?</p>
+<form action="" method="post">
+  <div class="form-group">
+    <input
+      type="hidden"
+      id="bookid"
+      class="form-control"
+      name="bookid"
+      value="<%= book._id %>"
+      required
+    />
+  </div>
+  <button type="submit" class="btn btn-primary">Delete</button>
+</form>
+<% } %>
